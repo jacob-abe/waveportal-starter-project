@@ -8,7 +8,7 @@ export default function App() {
 
   const [currentAccount, setCurrentAccount] = useState("");
 
-  let contractAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
+  let contractAddress = "0x4FAC6c8BdAb5FB020e055c9f861EE2a16003c537"
 
   const contractABI = abi.abi;
 
