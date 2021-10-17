@@ -9,21 +9,23 @@ export default function App() {
   }
   
   return (
+    <div className="webBg">
     <div className="mainContainer">
 
       <div className="dataContainer">
         <div className="header">
-        🤢 Greetings weakling!
+          <p className="whiteText">🤢 Greetings weakling!</p>
         </div>
 
         <div className="bio">
-        Press beg to recieve a chance to win some ETH from me.
+          <p className="whiteText">Press beg to recieve a chance to win some ETH from me.</p>
         </div>
 
         <button className="waveButton" onClick={wave}>
         🥺 Beg
         </button>
       </div>
+    </div>
     </div>
   );
 }
