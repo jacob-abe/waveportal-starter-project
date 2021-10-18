@@ -34,6 +34,16 @@
   background-color: orange;
 }
 
+.inputBox {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding: 8px;
+  border: 0;
+  border-radius: 5px;
+  background:linear-gradient(#8661b3,transparent);
+  background-color: white;
+}
+
 .connectButton {
   cursor: pointer;
   margin-top: 32px;
@@ -57,4 +67,34 @@
 
 .whiteText{
   color: whitesmoke;
+}
+
+.normalText{
+  color: purple;
+  size: 8px;
+}
+
+.cardHeaderText{
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  size: 8px;
+}
+
+.card{
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  flex-direction: column;
+  width: 400px;
+  height: auto;
+  position: relative;
+  border-radius: 2px;
+  background-color:#fff;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  margin: 20px;
+  padding: 20px;
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
