@@ -6,7 +6,7 @@ export default function BegList(props) {
         <div>
             {props.begs && 
                 props.begs.map(beg=>
-                    <Beg key={beg} beg={beg}/>
+                    <Beg key={beg.timestamp} beg={beg}/>
                 )
             }
         </div>

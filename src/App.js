@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import './styles/App.css';
 import abi from './utils/BegContract.json';
 import BegList from "./components/BegList"
+import ReactLoading from 'react-loading';
 
 
 export default function App() {
@@ -10,6 +11,8 @@ export default function App() {
   const [currentAccount, setCurrentAccount] = useState("");
   const [inputText, setInputText] = useState("");
   const [allBegs, setAllBegs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingText, setLoadingText] = useState("");
 
   let contractAddress = "0xC7f8ecdeaE3C44C99C0D5A05154251912c7db3ba"
 
@@ -33,11 +36,15 @@ export default function App() {
         console.log("Found an authorized account:", account);
         setCurrentAccount(account)
       } else {
+        setIsLoading(false)
         console.log("No authorized account found");
+        setLoadingText("")
       }
 
     } catch (error) {
+      setIsLoading(false)
       console.log(error);
+      setLoadingText("")
     }
   }
 
@@ -79,14 +86,22 @@ export default function App() {
           });
         });
 
-        setAllBegs(begsCleaned);
+        setAllBegs(begsCleaned.reverse());
 
         listenForNewBeg(begPortalContract);
+
+        setIsLoading(false)
+
+        setLoadingText("")
       } else {
-        alert("Ethereum object doesn't exist!")
+        console.log("Ethereum object doesn't exist!")
+        setIsLoading(false)
+        setLoadingText("")
       }
     } catch (error) {
       alert(error);
+      setIsLoading(false)
+      setLoadingText("")
     }
   }
 
@@ -104,6 +119,9 @@ export default function App() {
 
   const beg = async () => {
     try {
+      setIsLoading(true)
+      setLoadingText(`Connecting to wallet...`)
+
       const { ethereum } = window;
 
       if (ethereum) {
@@ -116,19 +134,29 @@ export default function App() {
 
         const begTxn = await begPortalContract.increment(inputText,{ gasLimit: 300000 });
         console.log("Mining...", begTxn.hash);
+        setLoadingText(`Mining...${begTxn.hash}`)
 
         await begTxn.wait();
         console.log("Mined -- ", begTxn.hash);
+        setLoadingText(`Mined...${begTxn.hash}`)
 
         count = await begPortalContract.getTotalBegs();
+        setLoadingText(`Retrieving begs...${count.toNumber()}`)
         console.log("Retrieved total beg count after begging...", count.toNumber());
 
         await getAllBegs()
+
+        setLoadingText("")
+        setIsLoading(false)
       } else {
+        setIsLoading(false)
         console.log("Ethereum object doesn't exist!");
+        alert("Connect your damn wallet dummy!!!")
       }
     } catch (error) {
-      alert("Please wait till the cooldown completes you greedy loser");
+      setIsLoading(false)
+      console.log(error);
+      alert("Please wait till the cooldown completes or this is a random error");
     }
   }
 
@@ -158,6 +186,12 @@ export default function App() {
         <button className="waveButton" onClick={beg}>
           🥺 Beg
         </button>
+        {isLoading == true? 
+          <div>
+            <ReactLoading type={"bars"} color={"white"} height={'20%'} width={'20%'}/> 
+          </div>
+          : null}
+        {loadingText != "" ? <p className="whiteText">{loadingText}</p> : null}
         {currentAccount=="" ?
           <button className="connectButton" onClick={connectWallet}>
             <p className="whiteText">Connect my wallet</p>
